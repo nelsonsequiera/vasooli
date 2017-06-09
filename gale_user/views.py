@@ -1,16 +1,6 @@
-from rest_framework.permissions import AllowAny
-from rest_framework import viewsets
 from .serializers import UserSerializer
 from .models import User
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint to allow users to interact.
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+from rest_framework import generics
 
 
 def jwt_response_payload_handler(token, user=None, request=None):
@@ -18,3 +8,22 @@ def jwt_response_payload_handler(token, user=None, request=None):
         'token': token,
         'user': UserSerializer(user, context={'request': request}).data
     }
+
+
+class UserCreateView(generics.CreateAPIView):
+    serializer_class = UserSerializer
+
+
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UsersListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

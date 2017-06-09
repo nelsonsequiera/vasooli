@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 
     # Custom apps.
     'gale_user',
+    'bills',
+
 ]
 
 MIDDLEWARE = [
@@ -162,5 +164,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+PROOF_IMAGE_ROOT = os.path.join(BASE_DIR, 'proofimages')
+PROOF_IMAGE_DIRECTORY = env('PROOF_IMAGE_DIRECTORY', default='proogimages'),
 
 AUTH_USER_MODEL = 'gale_user.User'

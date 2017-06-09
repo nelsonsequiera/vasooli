@@ -1,18 +1,3 @@
-"""vasooli URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import include
 from django.conf.urls import url
 
@@ -24,10 +9,10 @@ from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
 from gale_user import views
+from bills import views as bills_view
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-# router.register(r'register', views.RegisterViewSet)
+urlpatterns = router.urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -36,9 +21,25 @@ urlpatterns = [
     url(r'^api-token-verify/', verify_jwt_token),
 ]
 
+urlpatterns += router.urls
+
 urlpatterns += [
     url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+]
+
+urlpatterns += [
+    url(r'^user/create/$', views.UserCreateView.as_view(), name="user_create"),
+    url(r'^users/list/$', views.UsersListView.as_view(), name="users_list"),
+    url(r'^users/(?P<pk>\d+)/detail/$', views.UserDetailView.as_view(), name="user_detail"),
+    url(r'^users/(?P<pk>\d+)/update/$', views.UserUpdateView.as_view(), name="user_update"),
+]
+
+urlpatterns += [
+    url(r'^bill/create/$', bills_view.BillsCreateView.as_view(), name="bills_create"),
+    url(r'^bill/list/$', bills_view.BillsListView.as_view(), name="bills_list"),
+    url(r'^bill/(?P<pk>\d+)/detail/$', bills_view.BillsDetailView.as_view(), name="bills_detail"),
+    url(r'^bill/(?P<pk>\d+)/update/$', bills_view.BillsUpdateView.as_view(), name="bills_update"),
 ]
 
 if not settings.DEBUG:
