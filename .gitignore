@@ -1,6 +1,7 @@
 *.egg-info
 *.pot
-*.py[co]
+*.pyc
+*.pyo
 .tox/
 __pycache__
 MANIFEST
@@ -12,3 +13,4 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+*.sqlite3
