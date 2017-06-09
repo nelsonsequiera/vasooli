@@ -27,13 +27,13 @@ from gale_user import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-# router.register(r'register', views.RegisterViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-auth/', obtain_jwt_token, name='create_token'),
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
+    url(r'^register/', views.SignUpView.as_view())
 ]
 
 urlpatterns += [
