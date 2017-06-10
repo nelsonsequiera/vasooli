@@ -1,6 +1,9 @@
 from rest_framework import generics
 from .serializers import BillSerializer
 from .models import Bill
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.core import serializers
 
 
 class BillsCreateView(generics.CreateAPIView):
@@ -28,3 +31,12 @@ class BillsDeleteView(generics.DestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class BillUserList(generics.ListAPIView):
+    serializer_class = BillSerializer
+    user = ''
+
+    def get_queryset(self):
+        print self.user
+        return Bill.objects.filter(user=self.user)
