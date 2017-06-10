@@ -50,8 +50,8 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^user/login', LoginView.as_view()),
-    url(r'^user/register', RegisterView.as_view())
+    url(r'^user/login', LoginView.as_view(), name='login'),
+    url(r'^user/register', RegisterView.as_view(), name='register')
 ]
 
 if not settings.DEBUG:
