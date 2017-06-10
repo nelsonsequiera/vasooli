@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # Custom apps.
     'gale_user',
     'bills',
+    'authorization',
 
 ]
 

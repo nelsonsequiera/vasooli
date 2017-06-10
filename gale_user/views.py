@@ -4,7 +4,8 @@ from rest_framework import generics
 from bills.views import BillUserList
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from authorization.permission_manager import IsManager
 
 
 def jwt_response_payload_handler(token, user=None, request=None):
@@ -15,6 +16,7 @@ def jwt_response_payload_handler(token, user=None, request=None):
 
 
 class UserCreateView(generics.CreateAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = UserSerializer
 
 
@@ -34,6 +36,7 @@ class UsersListView(generics.ListAPIView):
 
 
 class UserDeleteView(generics.DestroyAPIView):
+    permission_classes = (IsAdminUser,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -42,7 +45,7 @@ class UserDeleteView(generics.DestroyAPIView):
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated, ))
+@permission_classes((IsAuthenticated, IsManager))
 def my_bills(request):
     if '_auth_user_id' in request.session:
         print request.session['_auth_user_id']
