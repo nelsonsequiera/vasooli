@@ -1,5 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Register</p>
+    <div class="container">
+        <section id="content">
+            <form action="" method="get" autocomplete="off">
+                <h1>Register</h1>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" placeholder="Email" required="" id="email" />
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" placeholder="Password" id="password" required>
+                </div>
+                <div>
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" placeholder="Confirm Password" id="confirm_password" required>
+                </div>
+                <div>
+                    <input type="submit" value="Register" />
+                    <a href={% url 'login' %}>Login</a>
+                </div>
+            </form><!-- form -->
+        </section><!-- content -->
+    </div><!-- container -->
 {% endblock %}
