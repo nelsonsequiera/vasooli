@@ -45,7 +45,9 @@ INSTALLED_APPS = [
 
     # Third party apps
     'rest_framework',
+    'rest_framework.authtoken',
     'compressor',
+    'rest_auth',
 
     # Custom apps.
     'gale_user',
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'authorization.middleware.login_middleware',
 ]
 
 ROOT_URLCONF = 'vasooli.urls'
@@ -175,3 +178,4 @@ PROOF_IMAGE_ROOT = os.path.join(BASE_DIR, 'proofimages')
 PROOF_IMAGE_DIRECTORY = env('PROOF_IMAGE_DIRECTORY', default='proogimages'),
 
 AUTH_USER_MODEL = 'gale_user.User'
+REST_USE_JWT = True
