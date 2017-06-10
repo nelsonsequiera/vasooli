@@ -1,9 +1,15 @@
+{% load staticfiles compress static %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Vasooli</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+    {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/vasooli.css' %}" />
+    {% endcompress %}
+
   </head>
 
   <body>
