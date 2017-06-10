@@ -1,22 +1,11 @@
-import requests
-from urlparse import urlparse
-from django.db import IntegrityError
-from django.urls import reverse
-from rest_framework.permissions import AllowAny
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from .serializers import UserSerializer
 from .models import User
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint to allow users to interact.
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+from rest_framework import generics
+from bills.views import BillUserList
+from django.http import JsonResponse
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from authorization.permission_manager import IsManager
 
 
 def jwt_response_payload_handler(token, user=None, request=None):
@@ -26,30 +15,40 @@ def jwt_response_payload_handler(token, user=None, request=None):
     }
 
 
-class SignUpView(APIView):
+class UserCreateView(generics.CreateAPIView):
+    permission_classes = (IsAdminUser,)
+    serializer_class = UserSerializer
 
-    permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-        username = request.data.get('username')
-        password = request.data.get('password')
-        password2 = request.data.get('confirm_password')
-        response = {}
-        if username and password == password2:
-            try:
-                User.objects.create_user(
-                    username=username,
-                    password=password,
-                    email=username
-                ).save()
-                scheme = urlparse(request.build_absolute_uri()).scheme
-                url = scheme + '://' + request.META['HTTP_HOST'] + reverse('create_token')
-                data = {'username': username, 'password': password}
-                response = requests.post(url, data=data).json()
 
-            except IntegrityError as e:
-                response['token'] = ''
-                response['message'] = 'User alredy exists, please register with a different user name.'
+class UserUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-        return Response(response)
+
+class UsersListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDeleteView(generics.DestroyAPIView):
+    permission_classes = (IsAdminUser,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, IsManager))
+def my_bills(request):
+    if '_auth_user_id' in request.session:
+        print request.session['_auth_user_id']
+        return BillUserList.as_view(user=request.session['_auth_user_id'])(request)
+    else:
+        return JsonResponse({'foo': 'bar'})
