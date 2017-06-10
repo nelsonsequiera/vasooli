@@ -12,7 +12,8 @@ from gale_user import views
 from bills import views as bills_view
 from authorization.views import (
     LoginView,
-    RegisterView
+    RegisterView,
+    HomeView
 )
 
 router = routers.DefaultRouter()
@@ -51,8 +52,9 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^user/login', LoginView.as_view()),
-    url(r'^user/register', RegisterView.as_view())
+    url(r'^user/login', LoginView.as_view(), name='login'),
+    url(r'^user/register', RegisterView.as_view(), name='register'),
+    url(r'^en/', HomeView.as_view(), name='home'),
 ]
 
 if not settings.DEBUG:

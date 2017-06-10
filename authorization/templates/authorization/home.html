@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <section id="content">
+            <form action="" method="get" autocomplete="off">
+                <h1>Reimbursement Form</h1>
+                <div>
+                    <label for="user">User Name</label>
+                    <input type="text" placeholder="Username" required="" id="user" />
+                </div>
+                <div>
+                    <label for="bill_date">Bill Date</label>
+                    <input type="date" id="bill_date" required>
+                </div>
+                <div>
+                    <label for="project_id">Project Id</label>
+                    <input type="text" placeholder="Project Id" required="" id="project_id" />
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <textarea rows="4" cols="50">
+                    </textarea>
+                </div>
+                <div>
+                    <label for="amount">Amount</label>
+                    <input type="text" placeholder="Amount" required="" id="amount" />
+                </div>
+                <div>
+                    <label for="proof_image">Proof Image</label>
+                    <input type="file" name="pic" accept="image/*" required="" id="proof_image" />
+                </div>
+                <div>
+                    <input type="button" value="Save" />
+                    <input type="submit" value="Submit" />
+                </div>
+            </form><!-- form -->
+        </section><!-- content -->
+    </div><!-- container -->
+{% endblock %}
