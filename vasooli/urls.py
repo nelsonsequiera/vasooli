@@ -33,6 +33,7 @@ urlpatterns += [
     url(r'^users/list/$', views.UsersListView.as_view(), name="users_list"),
     url(r'^users/(?P<pk>\d+)/detail/$', views.UserDetailView.as_view(), name="user_detail"),
     url(r'^users/(?P<pk>\d+)/update/$', views.UserUpdateView.as_view(), name="user_update"),
+    url(r'^users/(?P<pk>\d+)/delete/$', views.UserDeleteView.as_view(), name="user_delete"),
 ]
 
 urlpatterns += [
@@ -40,6 +41,7 @@ urlpatterns += [
     url(r'^bill/list/$', bills_view.BillsListView.as_view(), name="bills_list"),
     url(r'^bill/(?P<pk>\d+)/detail/$', bills_view.BillsDetailView.as_view(), name="bills_detail"),
     url(r'^bill/(?P<pk>\d+)/update/$', bills_view.BillsUpdateView.as_view(), name="bills_update"),
+    url(r'^bill/(?P<pk>\d+)/delete/$', bills_view.BillsDeleteView.as_view(), name="bills_delete"),
 ]
 
 if not settings.DEBUG:

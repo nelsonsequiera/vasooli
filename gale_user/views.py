@@ -27,3 +27,11 @@ class UserUpdateView(generics.RetrieveUpdateAPIView):
 class UsersListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class UserDeleteView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

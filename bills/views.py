@@ -20,3 +20,11 @@ class BillsUpdateView(generics.RetrieveUpdateAPIView):
 class BillsListView(generics.ListAPIView):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
+
+
+class BillsDeleteView(generics.DestroyAPIView):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
